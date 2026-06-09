@@ -1,4 +1,4 @@
-# Clio Payments GPV — dbt + BigQuery Analytics Model
+# Clio Payments GPV : dbt + BigQuery Analytics Model
 
 A scalable, repeatable analytics model for tracking and growing Payments GPV through
 AM and CSM-led motions. Built on BigQuery with dbt, fed by a version-controlled seed,
@@ -8,7 +8,7 @@ and surfaced through a free Looker Studio dashboard.
 The case analysis was a one-time exercise. This turns it into production infrastructure:
 the customer-state classification, GPV opportunity model, predictive-signal scoring, and
 priority tiering all become versioned dbt models that refresh on a schedule and feed the
-VP dashboard directly. See SETUP_GUIDE.md for full build steps (incl. Looker Studio).
+VP dashboard directly. 
 
 ## Architecture (medallion)
   seeds/customers.csv          the 5,000-row dataset, loaded via `dbt seed`
