@@ -4,6 +4,15 @@ A scalable, repeatable analytics model for tracking and growing Payments GPV thr
 AM and CSM-led motions. Built on BigQuery with dbt, fed by a version-controlled seed,
 and surfaced through a free Looker Studio dashboard.
 
+## The headline
+A $335M incremental GPV opportunity over six months, concentrated in three plays:
+
+- **$109M** from 1,132 accounts billing through Manage but not yet enabled
+- **$106M** from 269 self-serve-incomplete accounts, the warmest and highest intent
+- **$121M** from 215 enabled accounts underpenetrated against the 67% benchmark
+
+Billing volume is the dominant driver of both enablement and GPV, so the model prioritizes by value and feasibility, surfacing 93 P1 accounts that hold $223M of the opportunity.
+
 ## Why this exists
 The case analysis was a one-time exercise. This turns it into production infrastructure:
 the customer-state classification, GPV opportunity model, predictive-signal scoring, and
