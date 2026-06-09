@@ -1,0 +1,31 @@
+name: "clio_payments"
+version: "1.0.0"
+config-version: 2
+profile: "clio_payments"
+
+model-paths: ["models"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+
+target-path: "target"
+clean-targets: ["target", "dbt_packages"]
+
+seeds:
+  clio_payments:
+    customers:
+      +column_types:
+        customer_id: string
+        arr_usd: float64
+        gpv_last_6mo_usd: float64
+        time_to_adoption_days: float64
+        estimated_billing_vol_6mo_usd: float64
+        payments_penetration_rate: float64
+models:
+  clio_payments:
+    staging:
+      +materialized: view
+    intermediate:
+      +materialized: view
+    marts:
+      +materialized: table

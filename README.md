@@ -1,0 +1,42 @@
+# Clio Payments GPV — dbt + BigQuery Analytics Model
+
+A scalable, repeatable analytics model for tracking and growing Payments GPV through
+AM and CSM-led motions. Built on BigQuery with dbt, fed by a version-controlled seed,
+and surfaced through a free Looker Studio dashboard.
+
+## Why this exists
+The case analysis was a one-time exercise. This turns it into production infrastructure:
+the customer-state classification, GPV opportunity model, predictive-signal scoring, and
+priority tiering all become versioned dbt models that refresh on a schedule and feed the
+VP dashboard directly. See SETUP_GUIDE.md for full build steps (incl. Looker Studio).
+
+## Architecture (medallion)
+  seeds/customers.csv          the 5,000-row dataset, loaded via `dbt seed`
+  staging/      one-to-one with the seed, light cleaning + typing
+  intermediate/ business logic: state classification, opportunity sizing, feasibility
+  marts/        the OBT + KPI pack the dashboard and AM/CSM queues read from
+
+## Lineage
+  seed customers
+    -> stg_customers
+       -> int_customer_state         (the 5 states + healthy)
+       -> int_gpv_opportunity        (benchmark penetration, opportunity sizing)
+       -> int_account_feasibility    (enablement-likelihood score)
+          -> mart_account_priority   (OBT: priority tier, team routing, $ opp, action)
+          -> mart_gpv_kpis           (weekly KPI pack for the VP dashboard)
+
+## Build
+    dbt deps
+    dbt seed       # loads the dataset
+    dbt build      # run + test, in dependency order
+
+## Dashboard
+Looker Studio (free) connects natively to the two mart tables. Full click-by-click
+build in SETUP_GUIDE.md, section 10. One governed definition powers the dashboard,
+the AM trigger queue, and any AI/self-serve query.
+
+## Tests
+  - schema tests: unique/not_null keys, accepted_values on states + tiers, ranges
+  - singular tests:
+      assert_opportunity_excludes_competitor_locked
+      assert_enabled_have_no_enablement_opportunity_double_count

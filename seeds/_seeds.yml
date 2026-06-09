@@ -1,0 +1,27 @@
+version: 2
+seeds:
+  - name: customers
+    description: >
+      Raw 5,000-customer Payments dataset loaded as a dbt seed. Firmographics,
+      product usage, payments status, customer health, and GTM engagement.
+    config:
+      column_types:
+        customer_id: string
+        arr_usd: numeric
+        gpv_last_6mo_usd: numeric
+        estimated_billing_vol_6mo_usd: numeric
+        payments_penetration_rate: numeric
+    columns:
+      - name: customer_id
+        description: Unique account identifier.
+        tests: [unique, not_null]
+      - name: payments_enabled
+        description: Whether the account has Payments enabled (Yes/No).
+        tests:
+          - accepted_values:
+              arguments:
+                values: ["Yes", "No"]
+      - name: segment
+        tests:
+          - accepted_values:
+              values: ["Velocity", "Strat", "MM"]

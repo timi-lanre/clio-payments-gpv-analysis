@@ -1,0 +1,33 @@
+version: 2
+models:
+  - name: mart_account_priority
+    description: One row per account with payments state, GPV opportunity, feasibility, priority tier, and recommended GTM action. Powers the VP dashboard and AM/CSM queues.
+    columns:
+      - name: customer_id
+        tests: [unique, not_null]
+      - name: customer_state
+        tests:
+          - accepted_values:
+              values:
+                [
+                  "A_not_enabled_not_billing",
+                  "B_not_enabled_billing",
+                  "C_self_serve_incomplete",
+                  "D_enabled_no_gpv",
+                  "E_enabled_low_penetration",
+                  "F_healthy",
+                ]
+      - name: gpv_opportunity_6mo
+        tests:
+          - not_null
+          - dbt_utils.accepted_range: { min_value: 0 }
+      - name: priority_tier
+        tests:
+          - accepted_values:
+              values: ["P1_critical", "P2_high", "P3_medium", "P4_low"]
+  - name: mart_gpv_kpis
+    description: Weekly KPI pack for the VP of CS, sliced by owning team and segment.
+    columns:
+      - name: enablement_rate
+        tests:
+          - dbt_utils.accepted_range: { min_value: 0, max_value: 1 }
