@@ -40,8 +40,7 @@ VP dashboard directly.
     dbt build      # run + test, in dependency order
 
 ## Dashboard
-Looker Studio (free) connects natively to the two mart tables. Full click-by-click
-build in SETUP_GUIDE.md, section 10. One governed definition powers the dashboard,
+Looker Studio (free) connects natively to the two mart tables. One governed definition powers the dashboard,
 the AM trigger queue, and any AI/self-serve query.
 
 ## Tests
